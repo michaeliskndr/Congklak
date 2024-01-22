@@ -79,8 +79,8 @@ class CongklakViewController: UIViewController {
         boardCollectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             boardCollectionView.topAnchor.constraint(equalTo: playerLabel.bottomAnchor, constant: 20),
-            boardCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            boardCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            boardCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            boardCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             boardCollectionView.heightAnchor.constraint(equalToConstant: 120)
         ])
         

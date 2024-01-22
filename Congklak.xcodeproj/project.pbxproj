@@ -10,6 +10,7 @@
 		FBDA2BBD2B5E2DBC00AEF2C3 /* CongklakViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBDA2BBC2B5E2DBC00AEF2C3 /* CongklakViewModel.swift */; };
 		FBDA2BC12B5E31E900AEF2C3 /* HoleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBDA2BC02B5E31E900AEF2C3 /* HoleCell.swift */; };
 		FBDA2BC72B5E346E00AEF2C3 /* CongklakRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBDA2BC62B5E346E00AEF2C3 /* CongklakRouter.swift */; };
+		FBDA2BCA2B5E3DDB00AEF2C3 /* CongklakViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBDA2BC92B5E3DDB00AEF2C3 /* CongklakViewModelTests.swift */; };
 		FBE70B742B591E3200B68D25 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE70B732B591E3200B68D25 /* AppDelegate.swift */; };
 		FBE70B7D2B591E3400B68D25 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FBE70B7C2B591E3400B68D25 /* Assets.xcassets */; };
 		FBE70B802B591E3400B68D25 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBE70B7E2B591E3400B68D25 /* LaunchScreen.storyboard */; };
@@ -40,6 +41,7 @@
 		FBDA2BBC2B5E2DBC00AEF2C3 /* CongklakViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CongklakViewModel.swift; sourceTree = "<group>"; };
 		FBDA2BC02B5E31E900AEF2C3 /* HoleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoleCell.swift; sourceTree = "<group>"; };
 		FBDA2BC62B5E346E00AEF2C3 /* CongklakRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CongklakRouter.swift; sourceTree = "<group>"; };
+		FBDA2BC92B5E3DDB00AEF2C3 /* CongklakViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CongklakViewModelTests.swift; sourceTree = "<group>"; };
 		FBE70B702B591E3200B68D25 /* Congklak.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Congklak.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBE70B732B591E3200B68D25 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FBE70B7C2B591E3400B68D25 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				FBE70B8A2B591E3400B68D25 /* CongklakTests.swift */,
+				FBDA2BC92B5E3DDB00AEF2C3 /* CongklakViewModelTests.swift */,
 			);
 			path = CongklakTests;
 			sourceTree = "<group>";
@@ -312,6 +315,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FBDA2BCA2B5E3DDB00AEF2C3 /* CongklakViewModelTests.swift in Sources */,
 				FBE70B8B2B591E3400B68D25 /* CongklakTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

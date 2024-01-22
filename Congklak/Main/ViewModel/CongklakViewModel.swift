@@ -96,7 +96,7 @@ class CongklakViewModel: CongklakViewModelResponder {
         return true
     }
 
-    private func captureStones(at index: Int) {
+    func captureStones(at index: Int) {
         guard index != 7 || index < 13, board[index] == 0 else { return }
         var oppositeIndex = 0
         if currentPlayer == 1, index < 7, board[index] == 0 {
@@ -108,7 +108,7 @@ class CongklakViewModel: CongklakViewModelResponder {
         board[oppositeIndex] = 0
     }
     
-    private func handleExtraTurn(at index: Int) {
+    func handleExtraTurn(at index: Int) {
         if index == 7 {
             currentPlayer = 1
         } else {
