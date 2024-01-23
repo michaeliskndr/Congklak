@@ -39,6 +39,11 @@ class HoleCell: UICollectionViewCell {
             stonesLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        layer.cornerRadius = bounds.height / 2
+    }
 
     func configure(with stones: Int) {
         stonesLabel.text = "\(stones)"

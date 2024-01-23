@@ -7,13 +7,13 @@
 
 import Foundation
 
-class CongklakViewModel: CongklakViewModelResponder {
+final class CongklakViewModel: CongklakViewModelResponder {
     private var board: [Int]
     private var currentPlayer: Int
     var playerOneWarehouse: Int = 0
     var playerTwoWarehouse: Int = 0
     var remainingTurn = 16
-
+    
     init() {
         board = Array(repeating: 7, count: 14)
         currentPlayer = 1
