@@ -91,3 +91,5 @@ iOSInjectionProject/
 Congklak.xcodeproj/xcshareddata
 Congklak.xcodeproj/xcshareddata/xcschemes/Congklak.xcscheme
 .DS_Store
+Pods
+Congklak.xcworkspace/xcshareddata

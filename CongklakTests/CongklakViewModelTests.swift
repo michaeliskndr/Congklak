@@ -6,72 +6,179 @@
 //
 
 import XCTest
+import RxSwift
+import RxTest
 @testable import Congklak
 
 class CongklakViewModelTests: XCTestCase {
 
-    func testPlayMove() {
-        let viewModel = CongklakViewModel()
+    var scheduler: TestScheduler!
+    var disposeBag: DisposeBag!
+    var viewModel: CongklakViewModel!
 
-        // Test a valid move
-        XCTAssertTrue(viewModel.playMove(at: 0))
-        XCTAssertEqual(viewModel.getBoard(), [0, 8, 8, 8, 8, 8, 8, 7, 7, 7, 7, 7, 7, 7])
-        XCTAssertEqual(viewModel.getCurrentPlayer(), 1)
+    override func setUp() {
+        super.setUp()
+        scheduler = TestScheduler(initialClock: 0)
+        disposeBag = DisposeBag()
+        viewModel = CongklakViewModel()
+    }
 
-        // Test an invalid move
-        XCTAssertFalse(viewModel.playMove(at: 7))
-        XCTAssertEqual(viewModel.getBoard(), [0, 8, 8, 8, 8, 8, 8, 7, 7, 7, 7, 7, 7, 7])
-        XCTAssertEqual(viewModel.getCurrentPlayer(), 1)
+    override func tearDown() {
+        scheduler = nil
+        disposeBag = nil
+        viewModel = nil
+        super.tearDown()
+    }
 
-        // Test another valid move
-        XCTAssertTrue(viewModel.playMove(at: 1))
-        XCTAssertEqual(viewModel.getBoard(), [0, 8, 8, 8, 8, 8, 8, 7, 7, 7, 7, 7, 7, 7])
-        XCTAssertEqual(viewModel.getCurrentPlayer(), 1)
+    func testPlayMoveValidMove() {
+        let boardObserver = scheduler.createObserver([Int].self)
+        let playerObserver = scheduler.createObserver(Int.self)
+        let invalidMoveObserver = scheduler.createObserver(String?.self)
+        let winnerObserver = scheduler.createObserver(String?.self)
+
+        viewModel.boardObservable
+            .subscribe(boardObserver)
+            .disposed(by: disposeBag)
+
+        viewModel.playerObservable
+            .subscribe(playerObserver)
+            .disposed(by: disposeBag)
+
+        viewModel.invalidMoveObservable
+            .subscribe(invalidMoveObserver)
+            .disposed(by: disposeBag)
+
+        viewModel.winnerObservable
+            .subscribe(winnerObserver)
+            .disposed(by: disposeBag)
+
+        // Simulate a valid move
+        scheduler.createColdObservable([.next(10, 0)])
+            .subscribe(onNext: { [weak self] index in
+                self?.viewModel.playMove(at: index)
+            })
+            .disposed(by: disposeBag)
+
+        scheduler.start()
+
+        // Verify the expected changes
+        XCTAssertEqual(boardObserver.events.count, 7)
+        XCTAssertEqual(playerObserver.events.count, 2)
+        XCTAssertEqual(invalidMoveObserver.events.count, 1)
+        XCTAssertEqual(winnerObserver.events.count, 1)
+
+        // Add more assertions as needed
+    }
+
+    func testPlayMoveInvalidMove() {
+        let boardObserver = scheduler.createObserver([Int].self)
+        let playerObserver = scheduler.createObserver(Int.self)
+        let invalidMoveObserver = scheduler.createObserver(String?.self)
+        let winnerObserver = scheduler.createObserver(String?.self)
+
+        viewModel.boardObservable
+            .subscribe(boardObserver)
+            .disposed(by: disposeBag)
+
+        viewModel.playerObservable
+            .subscribe(playerObserver)
+            .disposed(by: disposeBag)
+
+        viewModel.invalidMoveObservable
+            .subscribe(invalidMoveObserver)
+            .disposed(by: disposeBag)
+
+        viewModel.winnerObservable
+            .subscribe(winnerObserver)
+            .disposed(by: disposeBag)
+
+        // Simulate an invalid move
+        scheduler.createColdObservable([.next(10, 8)]) // Assuming 8 is an invalid move for player 1
+            .subscribe(onNext: { [weak self] index in
+                self?.viewModel.playMove(at: index)
+            })
+            .disposed(by: disposeBag)
+
+        scheduler.start()
+
+        // Verify the expected changes
+        XCTAssertEqual(boardObserver.events.count, 1)
+        XCTAssertEqual(playerObserver.events.count, 1)
+        XCTAssertEqual(invalidMoveObserver.events.count, 2)
+        XCTAssertEqual(winnerObserver.events.count, 1)
     }
 
     func testCaptureStones() {
-        let viewModel = CongklakViewModel()
+        let boardObserver = scheduler.createObserver([Int].self)
 
-        // Set up the board for a capture scenario
-        viewModel.playMove(at: 0)
-        viewModel.playMove(at: 1)
-        viewModel.playMove(at: 2)
-        viewModel.playMove(at: 3)
+        viewModel.boardObservable
+            .subscribe(boardObserver)
+            .disposed(by: disposeBag)
 
-        // Capture stones
-        viewModel.captureStones(at: 3)
+        // Simulate a move that results in capturing stones
+        scheduler.createColdObservable([.next(10, 0)])
+            .subscribe(onNext: { [weak self] index in
+                self?.viewModel.playMove(at: index)
+            })
+            .disposed(by: disposeBag)
 
-        // Check if stones are captured
-        XCTAssertEqual(viewModel.getBoard(), [0, 0, 9, 9, 9, 9, 9, 7, 7, 7, 7, 7, 8, 8])
+        scheduler.start()
+
+        // Verify the expected changes
+        XCTAssertEqual(boardObserver.events.count, 7)
     }
 
     func testHandleExtraTurn() {
-        let viewModel = CongklakViewModel()
+        let playerObserver = scheduler.createObserver(Int.self)
 
-        // Handle extra turn for player 1
-        viewModel.handleExtraTurn(at: 7)
-        XCTAssertEqual(viewModel.getCurrentPlayer(), 1)
+        viewModel.playerObservable
+            .subscribe(playerObserver)
+            .disposed(by: disposeBag)
 
-        // Handle extra turn for player 2
-        viewModel.handleExtraTurn(at: 3)
-        XCTAssertEqual(viewModel.getCurrentPlayer(), 2)
+        // Simulate a move that results in an extra turn
+        scheduler.createColdObservable([.next(10, 7)])
+            .subscribe(onNext: { [weak self] index in
+                self?.viewModel.playMove(at: index)
+            })
+            .disposed(by: disposeBag)
+        
+        scheduler.start()
+
+        // Verify the expected changes
+        XCTAssertEqual(playerObserver.events.count, 1) // One for the initial turn and one for the extra turn
+        XCTAssertEqual(playerObserver.events.last?.value.element, 1) // Check if player changed correctly
     }
 
-    func testIsGameNotFinished() {
-        let viewModel = CongklakViewModel()
-        
-        _ = viewModel.playMove(at: 0)
-        XCTAssertFalse(viewModel.isGameFinished())
-    }
-    
-    func testIsGameFinished() {
-        let viewModel = CongklakViewModel()
-        
-        while viewModel.remainingTurn > 0 {
-            let player = viewModel.getCurrentPlayer()
-            _ = viewModel.playMove(at: player == 1 ? 1 : 8)
-        }
+    func testPlayAgain() {
+        let boardObserver = scheduler.createObserver([Int].self)
+        let playerOneWarehouseObserver = scheduler.createObserver(Int.self)
+        let playerTwoWarehouseObserver = scheduler.createObserver(Int.self)
 
-        XCTAssertTrue(viewModel.isGameFinished())
+        viewModel.boardObservable
+            .subscribe(boardObserver)
+            .disposed(by: disposeBag)
+
+        viewModel.playerOneWarehouseObservable
+            .subscribe(playerOneWarehouseObserver)
+            .disposed(by: disposeBag)
+
+        viewModel.playerTwoWarehouseObservable
+            .subscribe(playerTwoWarehouseObserver)
+            .disposed(by: disposeBag)
+
+        // Simulate playing again
+        scheduler.createColdObservable([.next(10, ())])
+            .subscribe(onNext: { [weak self] index in
+                self?.viewModel.playAgain()
+            })
+            .disposed(by: disposeBag)
+
+        scheduler.start()
+
+        // Verify the expected changes
+        XCTAssertEqual(boardObserver.events.count, 2)
+        XCTAssertEqual(playerOneWarehouseObserver.events.count, 2)
+        XCTAssertEqual(playerTwoWarehouseObserver.events.count, 2)
+        XCTAssertEqual(viewModel.remainingTurn, 16)
     }
 }

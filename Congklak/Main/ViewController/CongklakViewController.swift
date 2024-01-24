@@ -6,15 +6,17 @@
 //
 
 import UIKit
+import RxSwift
 
 protocol CongklakViewModelResponder {
-    func playMove(at index: Int) -> Bool
-    func getBoard() -> [Int]
-    func isGameFinished() -> Bool
-    func getCurrentPlayer() -> Int
-    
-    var playerOneWarehouse: Int { get }
-    var playerTwoWarehouse: Int { get }
+    func playMove(at index: Int)
+    func playAgain()
+    var boardObservable: Observable<[Int]> { get }
+    var playerObservable: Observable<Int> { get }
+    var playerOneWarehouseObservable: Observable<Int> { get }
+    var playerTwoWarehouseObservable: Observable<Int> { get }
+    var invalidMoveObservable: Observable<String?> { get }
+    var winnerObservable: Observable<String?> { get }
 }
 
 class CongklakViewController: UIViewController {
@@ -44,9 +46,9 @@ class CongklakViewController: UIViewController {
         return label
     }()
     
-    let playerOneLabel: UILabel = {
+    let playerTwoDescLabel: UILabel = {
         let label = UILabel()
-        label.text = "Player 1"
+        label.text = "Player 2"
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 16)
         return label
@@ -61,9 +63,9 @@ class CongklakViewController: UIViewController {
         return view
     }()
     
-    let playerTwoLabel: UILabel = {
+    let playerOneDescLabel: UILabel = {
         let label = UILabel()
-        label.text = "Player 2"
+        label.text = "Player 1"
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 16)
         return label
@@ -109,9 +111,18 @@ class CongklakViewController: UIViewController {
         return collectionView
     }()
     
+    let disposeBag = DisposeBag()
+    
+    var board: [Int] = [] {
+        didSet {
+            boardCollectionView.reloadData()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupRx()
     }
     
     func setupUI() {
@@ -125,7 +136,6 @@ class CongklakViewController: UIViewController {
             titleLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
         ])
 
-        playerLabel.text = "Player \(viewModel?.getCurrentPlayer() ?? 1)'s turn"
         view.addSubview(playerLabel)
         playerLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -160,11 +170,11 @@ class CongklakViewController: UIViewController {
             playerTwoScoreLabel.centerYAnchor.constraint(equalTo: playerTwoScoreView.centerYAnchor),
         ])
         
-        view.addSubview(playerOneLabel)
-        playerOneLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(playerTwoDescLabel)
+        playerTwoDescLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            playerOneLabel.topAnchor.constraint(equalTo: playerTwoScoreView.bottomAnchor, constant: 40),
-            playerOneLabel.centerXAnchor.constraint(equalTo: playerTwoScoreView.centerXAnchor)
+            playerTwoDescLabel.topAnchor.constraint(equalTo: playerTwoScoreView.bottomAnchor, constant: 40),
+            playerTwoDescLabel.centerXAnchor.constraint(equalTo: playerTwoScoreView.centerXAnchor)
         ])
 
         boardCollectionView.dataSource = self
@@ -196,19 +206,59 @@ class CongklakViewController: UIViewController {
             playerOneScoreLabel.centerYAnchor.constraint(equalTo: playerOneScoreView.centerYAnchor),
         ])
         
-        view.addSubview(playerTwoLabel)
-        playerTwoLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(playerOneDescLabel)
+        playerOneDescLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            playerTwoLabel.topAnchor.constraint(equalTo: playerOneScoreView.bottomAnchor, constant: 40),
-            playerTwoLabel.centerXAnchor.constraint(equalTo: playerOneScoreView.centerXAnchor)
+            playerOneDescLabel.topAnchor.constraint(equalTo: playerOneScoreView.bottomAnchor, constant: 40),
+            playerOneDescLabel.centerXAnchor.constraint(equalTo: playerOneScoreView.centerXAnchor)
         ])
+    }
+    
+    private func setupRx() {
+        viewModel?.playerObservable
+            .subscribe(onNext: { [weak self] player in
+                guard let self = self else { return }
+                self.playerLabel.text = "Player \(player)'s turn"
+            }).disposed(by: disposeBag)
+        
+        viewModel?.boardObservable
+            .subscribe(onNext: { [weak self] board in
+                guard let self = self else { return }
+                self.board = board
+            }).disposed(by: disposeBag)
+        
+        viewModel?.playerOneWarehouseObservable
+            .subscribe(onNext: { [weak self] score in
+                guard let self = self else { return }
+                self.playerOneScoreLabel.text = "\(score)"
+            }).disposed(by: disposeBag)
+        
+        viewModel?.playerTwoWarehouseObservable
+            .subscribe(onNext: { [weak self] score in
+                guard let self = self else { return }
+                self.playerTwoScoreLabel.text = "\(score)"
+            }).disposed(by: disposeBag)
+        
+        viewModel?.invalidMoveObservable
+            .subscribe(onNext: { [weak self] message in
+                guard let self = self, let message = message else { return }
+                self.showAlert(message: message)
+            }).disposed(by: disposeBag)
+        
+        viewModel?.winnerObservable
+            .subscribe(onNext: { [weak self] message in
+                guard let self = self, let message = message else { return }
+                self.showAlert(message: message) { _ in
+                    self.viewModel?.playAgain()
+                }
+            }).disposed(by: disposeBag)
     }
 }
 
 extension CongklakViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel?.getBoard().count ?? 0
+        return board.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -216,54 +266,23 @@ extension CongklakViewController: UICollectionViewDataSource, UICollectionViewDe
             return UICollectionViewCell()
         }
         
-        let stones = viewModel?.getBoard()[indexPath.item]
-        cell.configure(with: stones ?? 0)
+        let stones = board[indexPath.item]
+        cell.configure(with: stones)
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         /// Handle the move logic here
-        
-        guard viewModel?.playMove(at: indexPath.item) ?? false else {
-            showAlert(message: "Player \(viewModel?.getCurrentPlayer() ?? 1)'s invalid move")
-            return
-        }
-        
-        /// update board state
-        reloadBoard()
-        /// update score
-        updateScore()
-        /// check game is finished or not
-        checkIfGameIsFinished()
-    }
-}
-
-extension CongklakViewController {
-    
-    func reloadBoard() {
-        playerLabel.text = "Player \(viewModel?.getCurrentPlayer() ?? 1)'s turn"
-        boardCollectionView.reloadData()
-    }
-    
-    func updateScore() {
-        playerOneScoreLabel.text = "\(viewModel?.playerOneWarehouse ?? 1)"
-        playerTwoScoreLabel.text = "\(viewModel?.playerTwoWarehouse ?? 2)"
-    }
-    
-    func checkIfGameIsFinished() {
-        if viewModel?.isGameFinished() ?? false {
-            let winner = viewModel?.getCurrentPlayer() ?? 1
-            showAlert(message: "Game Over! Player \(winner) wins!")
-        }
+        viewModel?.playMove(at: indexPath.item)
     }
 }
 
 fileprivate extension CongklakViewController {
     
-    func showAlert(message: String) {
+    func showAlert(message: String, handler: ((UIAlertAction) -> Void)? = nil) {
         let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: handler))
         present(alertController, animated: true, completion: nil)
     }
 }
