@@ -140,7 +140,7 @@ final class CongklakViewModel: CongklakViewModelResponder {
         var oppositeIndex = 0
         if _player == 1, index < 7, board[index] == 0 {
             oppositeIndex = index + 7
-        } else {
+        } else if _player == 2, index >= 7, board[index] == 0  {
             oppositeIndex = index - 7
         }
         board[index] += board[oppositeIndex]
