@@ -216,36 +216,42 @@ class CongklakViewController: UIViewController {
     
     private func setupRx() {
         viewModel?.playerObservable
+            .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { [weak self] player in
                 guard let self = self else { return }
                 self.playerLabel.text = "Player \(player)'s turn"
             }).disposed(by: disposeBag)
         
         viewModel?.boardObservable
+            .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { [weak self] board in
                 guard let self = self else { return }
                 self.board = board
             }).disposed(by: disposeBag)
         
         viewModel?.playerOneWarehouseObservable
+            .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { [weak self] score in
                 guard let self = self else { return }
                 self.playerOneScoreLabel.text = "\(score)"
             }).disposed(by: disposeBag)
         
         viewModel?.playerTwoWarehouseObservable
+            .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { [weak self] score in
                 guard let self = self else { return }
                 self.playerTwoScoreLabel.text = "\(score)"
             }).disposed(by: disposeBag)
         
         viewModel?.invalidMoveObservable
+            .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { [weak self] message in
                 guard let self = self, let message = message else { return }
                 self.showAlert(message: message)
             }).disposed(by: disposeBag)
         
         viewModel?.winnerObservable
+            .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { [weak self] message in
                 guard let self = self, let message = message else { return }
                 self.showAlert(message: message) { _ in
