@@ -8,16 +8,19 @@
 import UIKit
 
 protocol CongklakRouting {
-    func makeCongklakViewController() -> UIViewController
+    func goToGame(from viewController: UIViewController)
 }
 
 struct CongklakRouter: CongklakRouting {
     
-    func makeCongklakViewController() -> UIViewController {
-        let viewModel = CongklakViewModel()
-        let viewController = CongklakViewController()
-        
-        viewController.viewModel = viewModel
-        return viewController
+    var factory: CongklakViewFactory?
+    
+    init(factory: CongklakViewFactory? = InjectorManager.shared.resolve(CongklakViewFactory.self)) {
+        self.factory = factory
+    }
+    
+    func goToGame(from viewController: UIViewController) {
+        guard let vc = factory?.makeCongklakViewController() else { return }
+        viewController.navigationController?.pushViewController(vc, animated: true)
     }
 }

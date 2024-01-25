@@ -6,6 +6,10 @@ def rx_pod
   pod 'RxCocoa'
 end
 
+def di_pod
+  pod 'Swinject'
+end
+
 def rx_test
   pod 'RxTest'
 end
@@ -16,6 +20,7 @@ target 'Congklak' do
 
   # Pods for Congklak
   rx_pod
+  di_pod
   target 'CongklakTests' do
     inherit! :search_paths
     # Pods for testing

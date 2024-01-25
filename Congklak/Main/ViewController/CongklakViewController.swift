@@ -23,14 +23,22 @@ class CongklakViewController: UIViewController {
     
     var viewModel: CongklakViewModelResponder?
     
-    let titleLabel: UILabel = {
+    lazy var dismissButton: UIButton = {
+        let button = UIButton()
+        button.setImage(.init(systemName: "multiply.circle"), for: .normal)
+        button.tintColor = .black
+        button.backgroundColor = .white
+        return button
+    }()
+    
+    lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 24)
         return label
     }()
 
-    let containerView: UIView = {
+    lazy var containerView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 20
         view.clipsToBounds = true
@@ -39,14 +47,14 @@ class CongklakViewController: UIViewController {
         return view
     }()
     
-    let playerLabel: UILabel = {
+    lazy var playerLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 18)
         return label
     }()
     
-    let playerTwoDescLabel: UILabel = {
+    lazy var playerTwoDescLabel: UILabel = {
         let label = UILabel()
         label.text = "Player 2"
         label.textAlignment = .center
@@ -54,7 +62,7 @@ class CongklakViewController: UIViewController {
         return label
     }()
 
-    let playerTwoScoreView: UIView = {
+    lazy var playerTwoScoreView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 35
         view.clipsToBounds = true
@@ -63,7 +71,7 @@ class CongklakViewController: UIViewController {
         return view
     }()
     
-    let playerOneDescLabel: UILabel = {
+    lazy var playerOneDescLabel: UILabel = {
         let label = UILabel()
         label.text = "Player 1"
         label.textAlignment = .center
@@ -71,7 +79,7 @@ class CongklakViewController: UIViewController {
         return label
     }()
     
-    let playerOneScoreView: UIView = {
+    lazy var playerOneScoreView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 35
         view.clipsToBounds = true
@@ -80,7 +88,7 @@ class CongklakViewController: UIViewController {
         return view
     }()
     
-    let playerOneScoreLabel: UILabel = {
+    lazy var playerOneScoreLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.text = "0"
@@ -88,7 +96,7 @@ class CongklakViewController: UIViewController {
         return label
     }()
     
-    let playerTwoScoreLabel: UILabel = {
+    lazy var playerTwoScoreLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.text = "0"
@@ -96,7 +104,7 @@ class CongklakViewController: UIViewController {
         return label
     }()
         
-    let boardCollectionView: UICollectionView = {
+    lazy var boardCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumInteritemSpacing = 10
         layout.minimumLineSpacing = 10
@@ -125,15 +133,31 @@ class CongklakViewController: UIViewController {
         setupRx()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
     func setupUI() {
         view.backgroundColor = .white
         
-        titleLabel.text = "Congklak the game"
+        titleLabel.text = "Congklak Blitz"
         view.addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             titleLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+        ])
+        
+        dismissButton.addTarget(self, action: #selector(backToHome), for: .touchUpInside)
+        view.addSubview(dismissButton)
+        dismissButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            dismissButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+            dismissButton.widthAnchor.constraint(equalToConstant: 40),
+            dismissButton.heightAnchor.constraint(equalToConstant: 40),
+            dismissButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
 
         view.addSubview(playerLabel)
@@ -258,6 +282,12 @@ class CongklakViewController: UIViewController {
                     self.viewModel?.playAgain()
                 }
             }).disposed(by: disposeBag)
+    }
+}
+
+extension CongklakViewController {
+    @objc func backToHome(_ sender: UIButton) {
+        navigationController?.popViewController(animated: true)
     }
 }
 

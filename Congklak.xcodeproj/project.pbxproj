@@ -14,10 +14,14 @@
 		FBDA2BC12B5E31E900AEF2C3 /* HoleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBDA2BC02B5E31E900AEF2C3 /* HoleCell.swift */; };
 		FBDA2BC72B5E346E00AEF2C3 /* CongklakRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBDA2BC62B5E346E00AEF2C3 /* CongklakRouter.swift */; };
 		FBDA2BCA2B5E3DDB00AEF2C3 /* CongklakViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBDA2BC92B5E3DDB00AEF2C3 /* CongklakViewModelTests.swift */; };
+		FBDA4FEC2B620DBB005D952E /* CongklakHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBDA4FEB2B620DBB005D952E /* CongklakHomeViewController.swift */; };
+		FBDA4FEE2B621031005D952E /* CongklakHomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBDA4FED2B621031005D952E /* CongklakHomeViewModel.swift */; };
+		FBDA4FF02B621196005D952E /* CongklakFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBDA4FEF2B621196005D952E /* CongklakFactory.swift */; };
+		FBDA4FF32B621478005D952E /* InjectorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBDA4FF22B621478005D952E /* InjectorManager.swift */; };
+		FBDA4FF52B621AD7005D952E /* CongklakHomeViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBDA4FF42B621AD7005D952E /* CongklakHomeViewModelTests.swift */; };
 		FBE70B742B591E3200B68D25 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE70B732B591E3200B68D25 /* AppDelegate.swift */; };
 		FBE70B7D2B591E3400B68D25 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FBE70B7C2B591E3400B68D25 /* Assets.xcassets */; };
 		FBE70B802B591E3400B68D25 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBE70B7E2B591E3400B68D25 /* LaunchScreen.storyboard */; };
-		FBE70B8B2B591E3400B68D25 /* CongklakTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE70B8A2B591E3400B68D25 /* CongklakTests.swift */; };
 		FBE70B952B591E3400B68D25 /* CongklakUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE70B942B591E3400B68D25 /* CongklakUITests.swift */; };
 		FBE70B972B591E3400B68D25 /* CongklakUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE70B962B591E3400B68D25 /* CongklakUITestsLaunchTests.swift */; };
 		FBE70BA42B591E4E00B68D25 /* CongklakViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE70BA32B591E4E00B68D25 /* CongklakViewController.swift */; };
@@ -54,13 +58,17 @@
 		FBDA2BC02B5E31E900AEF2C3 /* HoleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoleCell.swift; sourceTree = "<group>"; };
 		FBDA2BC62B5E346E00AEF2C3 /* CongklakRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CongklakRouter.swift; sourceTree = "<group>"; };
 		FBDA2BC92B5E3DDB00AEF2C3 /* CongklakViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CongklakViewModelTests.swift; sourceTree = "<group>"; };
+		FBDA4FEB2B620DBB005D952E /* CongklakHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CongklakHomeViewController.swift; sourceTree = "<group>"; };
+		FBDA4FED2B621031005D952E /* CongklakHomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CongklakHomeViewModel.swift; sourceTree = "<group>"; };
+		FBDA4FEF2B621196005D952E /* CongklakFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CongklakFactory.swift; sourceTree = "<group>"; };
+		FBDA4FF22B621478005D952E /* InjectorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InjectorManager.swift; sourceTree = "<group>"; };
+		FBDA4FF42B621AD7005D952E /* CongklakHomeViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CongklakHomeViewModelTests.swift; sourceTree = "<group>"; };
 		FBE70B702B591E3200B68D25 /* Congklak.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Congklak.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBE70B732B591E3200B68D25 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FBE70B7C2B591E3400B68D25 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FBE70B7F2B591E3400B68D25 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FBE70B812B591E3400B68D25 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FBE70B862B591E3400B68D25 /* CongklakTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CongklakTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		FBE70B8A2B591E3400B68D25 /* CongklakTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CongklakTests.swift; sourceTree = "<group>"; };
 		FBE70B902B591E3400B68D25 /* CongklakUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CongklakUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBE70B942B591E3400B68D25 /* CongklakUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CongklakUITests.swift; sourceTree = "<group>"; };
 		FBE70B962B591E3400B68D25 /* CongklakUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CongklakUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -125,6 +133,7 @@
 				FBDA2BC42B5E321500AEF2C3 /* ViewController */,
 				FBDA2BC32B5E320C00AEF2C3 /* ViewModel */,
 				FBDA2BC62B5E346E00AEF2C3 /* CongklakRouter.swift */,
+				FBDA4FEF2B621196005D952E /* CongklakFactory.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -133,6 +142,7 @@
 			isa = PBXGroup;
 			children = (
 				FBDA2BBC2B5E2DBC00AEF2C3 /* CongklakViewModel.swift */,
+				FBDA4FED2B621031005D952E /* CongklakHomeViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -141,6 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				FBE70BA32B591E4E00B68D25 /* CongklakViewController.swift */,
+				FBDA4FEB2B620DBB005D952E /* CongklakHomeViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -161,6 +172,14 @@
 				FBE70B812B591E3400B68D25 /* Info.plist */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		FBDA4FF12B62146F005D952E /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				FBDA4FF22B621478005D952E /* InjectorManager.swift */,
+			);
+			path = Helper;
 			sourceTree = "<group>";
 		};
 		FBE70B672B591E3200B68D25 = {
@@ -188,6 +207,7 @@
 		FBE70B722B591E3200B68D25 /* Congklak */ = {
 			isa = PBXGroup;
 			children = (
+				FBDA4FF12B62146F005D952E /* Helper */,
 				FBDA2BC22B5E320300AEF2C3 /* Main */,
 				FBE70B732B591E3200B68D25 /* AppDelegate.swift */,
 				FBDA2BC82B5E359300AEF2C3 /* Resources */,
@@ -198,8 +218,8 @@
 		FBE70B892B591E3400B68D25 /* CongklakTests */ = {
 			isa = PBXGroup;
 			children = (
-				FBE70B8A2B591E3400B68D25 /* CongklakTests.swift */,
 				FBDA2BC92B5E3DDB00AEF2C3 /* CongklakViewModelTests.swift */,
+				FBDA4FF42B621AD7005D952E /* CongklakHomeViewModelTests.swift */,
 			);
 			path = CongklakTests;
 			sourceTree = "<group>";
@@ -469,9 +489,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FBDA4FEC2B620DBB005D952E /* CongklakHomeViewController.swift in Sources */,
 				FBDA2BC72B5E346E00AEF2C3 /* CongklakRouter.swift in Sources */,
+				FBDA4FF02B621196005D952E /* CongklakFactory.swift in Sources */,
 				FBE70BA42B591E4E00B68D25 /* CongklakViewController.swift in Sources */,
+				FBDA4FEE2B621031005D952E /* CongklakHomeViewModel.swift in Sources */,
 				FBDA2BC12B5E31E900AEF2C3 /* HoleCell.swift in Sources */,
+				FBDA4FF32B621478005D952E /* InjectorManager.swift in Sources */,
 				FBE70B742B591E3200B68D25 /* AppDelegate.swift in Sources */,
 				FBDA2BBD2B5E2DBC00AEF2C3 /* CongklakViewModel.swift in Sources */,
 			);
@@ -482,7 +506,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FBDA2BCA2B5E3DDB00AEF2C3 /* CongklakViewModelTests.swift in Sources */,
-				FBE70B8B2B591E3400B68D25 /* CongklakTests.swift in Sources */,
+				FBDA4FF52B621AD7005D952E /* CongklakHomeViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Swinject
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -14,15 +15,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = initializeRoot()
-        window?.makeKeyAndVisible()
+    
+        registerDependencies()
+        initializeRoot()
         return true
     }
+}
+
+extension AppDelegate {
     
-    func initializeRoot() -> UIViewController {
-        let router: CongklakRouting = CongklakRouter()
-        return router.makeCongklakViewController()
+    func initializeRoot() {
+        let factory = InjectorManager.shared.resolve(CongklakViewFactory.self)
+        
+        guard let rootVC = factory?.makeCongklakHomeViewController() else { return }
+        
+        let navigationController = UINavigationController(rootViewController: rootVC)
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.rootViewController = navigationController
+        window?.makeKeyAndVisible()
+    }
+                                
+    func registerDependencies() {
+        InjectorManager.shared.register(CongklakRouting.self) { _ in
+            CongklakRouter()
+        }
+        
+        InjectorManager.shared.register(CongklakViewFactory.self) { _ in
+            CongklakFactory()
+        }
     }
 }
 
